@@ -1,0 +1,19 @@
+import numpy as np 
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
+
+# read text from file and store in a variable
+with open("E:/data.txt") as file:
+    data = file.read()
+
+# create wordcloud using data
+wordcloud = WordCloud().generate(data)
+
+# show wordcloud using matplotlib
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
