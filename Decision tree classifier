@@ -1,0 +1,126 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+data=pd.read_csv("student.csv")
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, classification_report, 
+confusion_matrix
+from sklearn.tree import plot_tree
+df.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 54 entries, 0 to 53
+Data columns (total 18 columns):
+ # Column Non-Null Count Dtype 
+--- ------ -------------- ----- 
+ 0 Sl.No. 54 non-null int64 
+ 1 USN 54 non-null object 
+ 2 STUDENT NAME 54 non-null object 
+ 3 Test I 54 non-null int64 
+ 4 Test II 54 non-null int64 
+ 5 Test III 54 non-null int64 
+ 6 Test Total 54 non-null float64
+ 7 Test Result 54 non-null int64 
+ 8 Quiz 1 54 non-null float64
+ 9 Quiz 2 54 non-null float64
+ 10 Compensatory 53 non-null float64
+ 11 Quiz 54 non-null float64
+ 12 Quiz Result 54 non-null int64 
+ 13 Test + Quiz 54 non-null float64
+ 14 Assignment 54 non-null int64 
+ 15 Unnamed: 15 54 non-null int64 
+ 16 Assignment Result 54 non-null int64 
+ 17 Result 54 non-null int64 
+dtypes: float64(6), int64(10), object(2)
+memory usage: 7.7+ KB
+data.isna().sum()
+STUDENT NAME 0
+Test I 0
+Test II 0
+Test III 0
+Test Total 0
+Test Result 0
+Quiz 1 0
+Quiz 2 0
+Compensatory 1
+Quiz 0
+Quiz Result 0
+Test + Quiz 0
+Assignment 0
+Result 0
+dtype: int64
+X = data.drop('Result', axis=1)
+y = data['Result']
+y=df["Result"]
+X_train, X_test, y_train, y_test = train_test_split(X, y, 
+test_size=0.2, random_state=42)
+# Step 3: Build and train the Decision Tree model
+decision_tree_model = DecisionTreeClassifier(random_state=42)
+decision_tree_model.fit(X_train, y_train)
+# Step 4: Evaluate the Decision Tree model
+y_pred = decision_tree_model.predict(X_test)
+# Calculate accuracy and other metrics
+accuracy = accuracy_score(y_test, y_pred)
+conf_matrix = confusion_matrix(y_test, y_pred)
+classification_rep = classification_report(y_test, y_pred)
+print(f"Accuracy: {accuracy}")
+print(f"Confusion Matrix:\n{conf_matrix}")
+print(f"Classification Report:\n{classification_rep}")
+Accuracy: 0.8181818181818182
+Confusion Matrix:
+[[4 2]
+ [0 5]]
+Classification Report:
+ precision recall f1-score support
+ 0 1.00 0.67 0.80 6
+ 1 0.71 1.00 0.83 5
+ accuracy 0.82 11
+ macro avg 0.86 0.83 0.82 11
+weighted avg 0.87 0.82 0.82 11
+# Step 8: Visualize the Decision Tree
+plt.figure(figsize=(15, 10))
+plot_tree(decision_tree_model, feature_names=X.columns.tolist(), 
+class_names=['Fail', 'Pass'], filled=True)
+plt.show()
+# Before (using PdfFileWriter - deprecated):
+from PyPDF2 import PdfFileWriter
+# Create a PdfFileWriter object
+pdf_writer = PdfFileWriter()
+# After (using PdfWriter - recommended):
+from PyPDF2 import PdfWriter
+# Create a PdfWriter object
+pdf_writer = PdfWriter()
+----------------------------------------------------------------------
+-----
+DeprecationError Traceback (most recent call 
+last)
+Cell In[1], line 5
+ 2 from PyPDF2 import PdfFileWriter
+ 4 # Create a PdfFileWriter object
+----> 5 pdf_writer = PdfFileWriter()
+ 7 # After (using PdfWriter - recommended):
+ 8 from PyPDF2 import PdfWriter
+File ~/.local/lib/python3.11/site-packages/PyPDF2/_writer.py:2821, in 
+PdfFileWriter.__init__(self, *args, **kwargs)
+ 2820 def __init__(self, *args: Any, **kwargs: Any) -> None:
+-> 2821 deprecation_with_replacement("PdfFileWriter", "PdfWriter",
+"3.0.0")
+ 2822 super().__init__(*args, **kwargs)
+File ~/.local/lib/python3.11/site-packages/PyPDF2/_utils.py:369, in 
+deprecation_with_replacement(old_name, new_name, removed_in)
+ 363 def deprecation_with_replacement(
+ 364 old_name: str, new_name: str, removed_in: str = "3.0.0"
+ 365 ) -> None:
+ 366 """
+ 367 Raise an exception that a feature was already removed, but
+has a replacement.
+ 368 """
+--> 369 deprecation(DEPR_MSG_HAPPENED.format(old_name, removed_in,
+new_name))
+File ~/.local/lib/python3.11/site-packages/PyPDF2/_utils.py:351, in 
+deprecation(msg)
+ 350 def deprecation(msg: str) -> None:
+--> 351 raise DeprecationError(msg)
+DeprecationError: PdfFileWriter is deprecated and was removed in 
+PyPDF2 3.0.0. Use PdfWriter instead
