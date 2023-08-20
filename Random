@@ -1,0 +1,43 @@
+import seaborn as sb
+import pandas as pd
+import matplotlib.pyplot as mp
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score,confusion_matrix
+
+
+data=pd.read_excel("C:/Users/DS1/Downloads/random_forest_dataset(2).xlsx")
+data.info()
+data.describe()
+data.head(5)
+data.isna().sum()
+
+data['R1']=data['R1'].fillna(data['R1'].mean())
+
+data['T1']=data['T1'].fillna(data['T1'].mean())
+
+data['Grade']=data['Grade'].fillna(data['Grade'].mode())
+data['Grade'].mode()
+
+data.isna().sum()
+
+x=data.drop(['Sl No','Grade','USN','Name','Title'],axis=1)
+x.isnull().sum()
+
+y=data['Grade']
+y.head
+
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.3,random_state=42)
+y_train.isna().sum()
+
+rfc=RandomForestClassifier(n_estimators=10,random_state=42)
+
+rfc.fit(x_train,y_train)
+
+y_pred=rfc.predict(x_test)
+
+confusion_matrix(y_test,y_pred)
+
+accuracy_score(y_test,y_pred)
+
+x_test
